@@ -1,0 +1,15 @@
+/**
+ * @file visitor_actions_ui.module.css
+ */
+
+.visitor-actions-ui-dialog {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  left: auto;
+  max-height: 100%;
+  position: absolute;
+  right: auto;
+  top: auto;
+  z-index: 99;
+}

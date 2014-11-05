@@ -1,0 +1,12 @@
+.ctools-dropbutton-processed {
+    position: relative;
+}
+
+.dynamic-queue-taxonomy-term-list {
+  width: 280px;
+}
+
+.state-Draft .dynamic-queue-revision--active,
+.state-Unpublished .dynamic-queue-revision--active {
+  display: none;
+}

@@ -1,0 +1,83 @@
+<?php
+
+/**
+ * @file
+ * Define the WYSIWYG browser plugin.
+ */
+
+/**
+ * Implements WYSIWYG's hook_wysiwyg_plugin().
+ */
+function pub_wysiwyg_wysiwyg_plugin($editor, $version) {
+  switch ($editor) {
+    case 'ckeditor':
+      if ($version > 3) {
+        return array(
+          'youtube' => array(
+            'url' => 'http://github.com/NBCUOTS/Publisher7',
+            'path' => drupal_get_path('module', 'pub_wysiwyg') . '/plugins/youtube',
+            'filename' => 'plugin.js',
+            'buttons' => array(
+              'Youtube' => t('Youtube'),
+            ),
+            'load' => TRUE,
+            'internal' => FALSE,
+          ),
+        );
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_filter_info().
+ */
+function pub_wysiwyg_filter_info() {
+  $filters = array();
+
+  $filters['pub_wysiwyg_youtube'] = array(
+    'title' => t('Publisher youtube formatter'),
+    'description' => t("Allows <youtube> tag to indicate youtube embed video."),
+    'process callback' => 'pub_wysiwyg_filter_process',
+    'tips callback' => 'pub_wysiwyg_filter_tips',
+    'cache' => FALSE,
+  );
+
+  return $filters;
+}
+
+/**
+ * Process callback for pub_wysiwyg_youtube.
+ *
+ * Turns a <youtube> tag into an iframe embed.
+ *
+ * @param string $text
+ *   Text to be filtered.
+ * @param object $filter
+ *   Filter object.
+ *
+ * @see pub_wysiwyg_filter_info
+ *
+ * @return string
+ *   Returns the filtered text.
+ */
+function pub_wysiwyg_filter_process($text, $filter) {
+  $html_dom = filter_dom_load($text);
+  $videos = $html_dom->getElementsByTagName('youtube');
+  foreach ($videos as $video) {
+    // TODO: Switch the regular URL to the embed URL instead
+    // of making youtube figure it out.
+    $url = $video->getAttribute('src');
+    $width = $video->getAttribute('width');
+    $height = $video->getAttribute('height');
+
+    $iframe = $html_dom->createElement('iframe');
+    $iframe->setAttribute('width', $width);
+    $iframe->setAttribute('height', $height);
+    $iframe->setAttribute('src', $url);
+    $video->parentNode->replaceChild($iframe, $video);
+  }
+  $text = filter_dom_serialize($html_dom);
+
+  return $text;
+}

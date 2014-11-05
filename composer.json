@@ -1,0 +1,18 @@
+{
+  "name": "nbcuots/publisher7",
+  "description": "The base Publisher7 platform.",
+  "license": "GPL-2.0+",
+  "require": {
+    "composer/installers": "dev-master",
+    "drush/drush": "6.4.0"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "dev-master",
+    "drupal/coder": "7.2.2",
+    "phpunit/phpunit": "4.1.6",
+    "phpunit/php-code-coverage": "2.0.*",
+    "sebastian/phpcpd": "*",
+    "phpmd/phpmd": "dev-master",
+    "jakub-onderka/php-parallel-lint": "0.*"
+  }
+}
